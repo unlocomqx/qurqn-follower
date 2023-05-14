@@ -4,10 +4,8 @@ import pandas as pd
 from thefuzz import fuzz
 from thefuzz import process
 
-csv = pd.read_csv('./data/simplified.csv')
-texts = csv['simplified'].to_list()
-
-# print(texts)
+csv = pd.read_csv('./data/quran.csv')
+texts = csv['text'].to_list()
 
 r = sr.Recognizer()
 
@@ -19,11 +17,11 @@ while True:
         print("Recognizing...")
     try:
         r.pause_threshold = 0.5
-        text = r.recognize_whisper(audio, language='english', model='medium')
+        text = r.recognize_whisper(audio, language='arabic', model='small')
         print(text)
-        # if len(text) > 0:
-        #     result = process.extract(text, texts, limit=3)
-        #     print(result)
+        if len(text) > 0:
+            result = process.extract(text, texts, limit=3)
+            print(result)
     except sr.UnknownValueError:
         print("Could not understand audio")
     except sr.RequestError as e:
